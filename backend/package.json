@@ -1,0 +1,29 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "crypto-js": "^3.1.9-1",
+    "express": "^4.16.4",
+    "http": "0.0.0",
+    "init": "^0.1.2",
+    "jsonwebtoken": "^8.4.0",
+    "lowdb": "^1.0.0",
+    "moment": "^2.22.2",
+    "morgan": "^1.9.1",
+    "mysql": "^2.16.0",
+    "rand-token": "^0.4.0",
+    "socket.io": "^2.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "1512034-1512055-1512488",
+  "license": "ISC"
+}
