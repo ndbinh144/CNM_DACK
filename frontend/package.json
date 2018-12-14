@@ -12,22 +12,23 @@
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "socket.io-client": "^2.2.0",
-    "vue": "^2.5.17",
-    "vue-router": "^3.0.1",
+    "vue": "^2.5.21",
+    "vue-route": "^1.5.1",
+    "vue-router": "^3.0.2",
     "vue-socket.io": "^3.0.4",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.2.0",
-    "@vue/cli-plugin-eslint": "^3.2.0",
+    "@vue/cli-plugin-eslint": "^3.2.1",
     "@vue/cli-service": "^3.2.0",
     "axios": "^0.18.0",
     "babel-eslint": "^10.0.1",
-    "eslint": "^5.8.0",
-    "eslint-plugin-vue": "^5.0.0-0",
+    "eslint": "^5.10.0",
+    "eslint-plugin-vue": "^5.0.0",
     "vue-cli-plugin-axios": "0.0.4",
     "vue-cli-plugin-buefy": "^0.3.3",
-    "vue-template-compiler": "^2.5.17"
+    "vue-template-compiler": "^2.5.21"
   },
   "eslintConfig": {
     "root": true,
