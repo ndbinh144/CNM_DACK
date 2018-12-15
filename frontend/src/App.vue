@@ -21,5 +21,10 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 40.5rem;
+  background-color: rgb(251, 253, 251);
 }
 </style>

@@ -113,7 +113,7 @@ export default {
   background-color: rgb(7, 97, 74);
   display: none;
   box-shadow: 0rem .5rem 1.2rem 0rem gray;
-  z-index: 1;
+  z-index: 999;
 }
 .show {
   display: block;
