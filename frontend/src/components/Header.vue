@@ -30,17 +30,19 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-    <div class="list_menu" id="list_menu">
-      <b-list-group class="content_menu">
-        <b-list-group-item
-          @mouseover="mouseOverItem(index)"
-          @mouseleave="mouseLeaveItem(index)"
-          :class="{ active: index == indexActive }"
-          v-for="(item, index) in menuDrop"
-          :key="item.id"
-          @click="chooseItem"
-        >{{ item.menuName }}</b-list-group-item>
-      </b-list-group>
+    <div class="menu">
+      <div class="list_menu" id="list_menu">
+        <b-list-group class="content_menu">
+          <b-list-group-item
+            @mouseover="mouseOverItem(index)"
+            @mouseleave="mouseLeaveItem(index)"
+            :class="{ active: index == indexActive }"
+            v-for="(item, index) in menuDrop"
+            :key="item.id"
+            @click="chooseItem"
+          >{{ item.menuName }}</b-list-group-item>
+        </b-list-group>
+      </div>
     </div>
   </div>
 </template>
@@ -68,7 +70,7 @@ export default {
       this.changeDisplayMenu();
     },
     changeDisplayMenu() {
-      document.getElementById('list_menu').classList.toggle('show');
+      document.getElementById("list_menu").classList.toggle("show");
     },
     mouseOverItem(index) {
       this.indexActive = index;
@@ -100,19 +102,24 @@ export default {
   width: 2.5rem;
   position: absolute;
 }
-.list_menu {
-  float: left;
+.menu {
   position: fix;
+  float: left;
+}
+.list_menu {
+  position: absolute;
   text-align: left;
   padding: 0.2rem;
   background-color: rgb(7, 97, 74);
   display: none;
+  box-shadow: 0rem .5rem 1.2rem 0rem gray;
+  z-index: 1;
 }
 .show {
   display: block;
 }
 .user {
-  color:teal;
+  color: teal;
   font-weight: 800;
 }
 </style>
