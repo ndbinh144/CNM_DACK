@@ -24,7 +24,7 @@ export default {
   max-width: 80rem;
   margin-left: auto;
   margin-right: auto;
-  min-height: 40.5rem;
-  background-color: rgb(251, 253, 251);
+  min-height: 41rem;
+  background-color: rgb(226, 243, 242);
 }
 </style>
