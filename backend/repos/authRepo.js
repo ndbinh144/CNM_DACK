@@ -4,18 +4,15 @@ var rndToken = require('rand-token');
 var moment = require('moment');
 
 var db = require('../fn/mysql-db');
-
-const SECRET = 'ABCDEF';
-const AC_LIFETIME = 600; // seconds
+var opts = require('../fn/opts');
 
 exports.generateAccessToken = userEntity => {
     var payload = {
         user: userEntity,
         info: 'more info'
     }
-
-    var token = jwt.sign(payload, SECRET, {
-        expiresIn: AC_LIFETIME
+    var token = jwt.sign(payload, opts.ACCESS_TOKEN.SECRET_KEY, {
+        expiresIn: opts.ACCESS_TOKEN.LIFETIME
     });
 
     return token;
@@ -26,7 +23,7 @@ exports.verifyAccessToken = (req, res, next) => {
     console.log(token);
 
     if (token) {
-        jwt.verify(token, SECRET, (err, payload) => {
+        jwt.verify(token, opts.ACCESS_TOKEN.SECRET_KEY, (err, payload) => {
             if (err) {
                 res.statusCode = 401;
                 res.json({
@@ -42,20 +39,18 @@ exports.verifyAccessToken = (req, res, next) => {
         res.statusCode = 403;
         res.json({
             msg: 'NO_TOKEN'
-        })
+        });
     }
 }
 
 exports.generateRefreshToken = () => {
-    const SIZE = 16;
-    return rndToken.generate(SIZE);
+    return rndToken.generate(opts.REFRESH_TOKEN.SIZE);
 }
 
 exports.updateRefreshToken = (userId, rfToken) => {
     return new Promise((resolve, reject) => {
-
         var sql = `delete from userRefreshTokenExt where userId = ${userId}`;
-        db.insert(sql) // delete
+        db.insert(sql)
             .then(value => {
                 var rdt = moment().format('YYYY-MM-DD HH:mm:ss');
                 sql = `insert into userRefreshTokenExt values(${userId}, '${rfToken}', '${rdt}')`;
@@ -64,4 +59,14 @@ exports.updateRefreshToken = (userId, rfToken) => {
             .then(value => resolve(value))
             .catch(err => reject(err));
     });
+}
+
+exports.verifyRefreshToken = rfToken => {
+    var sql = `select * from userRefreshTokenExt where rfToken = '${rfToken}'`;
+    return db.load(sql);
+}
+
+exports.deleteRefreshToken = id => {
+    var sql = `delete from userRefreshTokenExt where userId = ${id}`;
+    return db.delete(sql);
 }

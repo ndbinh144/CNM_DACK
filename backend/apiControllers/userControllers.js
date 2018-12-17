@@ -5,7 +5,7 @@ var authRepo = require('../repos/authRepo');
 
 var router = express.Router();
 
-router.get('/login', (req, res) => {
+router.post('/login', (req, res) => {
 	console.log(req.body);
 	userRepo.login(req.body)
 		.then(rows => {

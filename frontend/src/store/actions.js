@@ -1,5 +1,5 @@
 export default {
-    getAccount({ commit }){
-        commit('getAccount')
+    getAccount({ commit }, account){
+        commit('getAccount', account)
     }
 }
