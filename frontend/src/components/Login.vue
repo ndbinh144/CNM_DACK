@@ -46,7 +46,10 @@ export default {
     }
   },
   updated () {
-    if (localStorage.token) {
+    
+  },
+  mounted () {
+    if (localStorage.access_token) {
       this.$router.replace(this.$route.query.redirect || '/')
     }
   },

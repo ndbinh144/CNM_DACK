@@ -14,7 +14,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use('/api/user/', urlencodedParser, usersCtrl);
+app.use('/api/user/', verifyAccessToken, urlencodedParser, usersCtrl);
 // app.use('/orders', verifyAccessToken, orderCtrl);
 
 var port = process.env.PORT || 3000;

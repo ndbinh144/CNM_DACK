@@ -8,7 +8,7 @@ import actions from './actions'
 
 export default new Vuex.Store({
     state: {
-        account: {},
+        account: false,
     },
     mutations,
     actions

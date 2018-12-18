@@ -5,7 +5,7 @@ var opts = {
 
   ACCESS_TOKEN: {
       SECRET_KEY: 'secret',
-      LIFETIME: 600 // in seconds
+      LIFETIME: 30 // in seconds
   },
 
   REFRESH_TOKEN: {
