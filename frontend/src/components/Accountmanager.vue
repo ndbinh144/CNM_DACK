@@ -1,9 +1,34 @@
 <template>
-    <b-table :data="data" :columns="columns"></b-table>
+    <b-table :data="data" :columns="columns">
+        <template slot="detail" slot-scope="props">
+            <article class="media">
+                <figure class="media-left">
+                    <p class="image is-64x64">
+                        <img src="/static/img/placeholder-128x128.png">
+                    </p>
+                </figure>
+                <div class="media-content">
+                    <div class="content">
+                        <p>
+                            <strong>{{ props.row.user.first_name }} {{ props.row.user.last_name }}</strong>
+                            <small>@{{ props.row.user.first_name }}</small>
+                            <small>31m</small>
+                            <br>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Proin ornare magna eros, eu pellentesque tortor vestibulum ut.
+                            Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                        </p>
+                    </div>
+                </div>
+            </article>
+        </template>
+    </b-table>
 </template>
 
 <script>
+    
     export default {
+        name: 'Accountmanager',
         data() {
             return {
                 data: [
