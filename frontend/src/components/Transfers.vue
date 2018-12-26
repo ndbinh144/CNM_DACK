@@ -24,7 +24,7 @@
             >
           </div>
         </div>
-        <div class="col-sm-4" :style="{ display: isInputAccountSource }">
+        <div class="col-sm-4" v-if="inputAcountSource != ''" :style="{ display: isInputAccountSource }">
           <p class="label-info">Số dư tài khoản: {{ surplus }}</p>
         </div>
       </div>
@@ -84,10 +84,14 @@
             </select>
           </div>
         </div>
-        <div class="col-sm-4 accountDestiny" v-if="accountDestiny != null" :style="{ display: isInputAccountDestiny}">
+        <div class="col-sm-4 accountDestiny" v-if="inputAcountDestiny != ''" :style="{ display: isInputAccountDestiny}">
           <label class="title_info">Thông tin người nhận</label>
           <div class="info_Account">
-            <p>Chủ tài khoản: {{ accountDestiny.name }}</p>
+            <!-- <p>Chủ tài khoản: {{ accountDestiny.name }}</p> -->
+            <p>Chủ tài khoản:</p>
+            <p>Chủ tài khoản:</p>
+            <p>Chủ tài khoản:</p>
+            <p>Chủ tài khoản:</p>
           </div>
         </div>
       </div>
@@ -147,7 +151,6 @@ export default {
       showErrorMsg: "none",
       isInputAccountSource: "none",
       isInputAccountDestiny: "none",
-      accountDestiny: null,
       isCardModalActive: false,
       inputSourceAccount: true,
       currList: [],
@@ -205,7 +208,9 @@ export default {
       // Gọi API lấy số dư của tài khoản
       self.displaySurlus();
     },
-    checkInfoDestiny() {},
+    checkInfoDestiny() {
+      this.isInputAccountDestiny = "block";
+    },
     changePage(index) {
       var self = this;
       if (index + 1 != self.pageCurr) {
@@ -232,6 +237,9 @@ export default {
   watch: {
     inputAcountSource() {
       this.checkSurplus();
+    },
+    inputAcountDestiny() {
+      this.checkInfoDestiny();
     }
   }
 };
