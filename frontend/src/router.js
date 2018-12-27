@@ -22,6 +22,16 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     },
     {
+      path: '/createuser',
+      name: 'createuser',
+      component: () => import('./components/CreateUser.vue')
+    },
+    {
+      path: '/createaccount',
+      name: 'createaccount',
+      component: () => import('./components/CreateAccount.vue')
+    },
+    {
       path: '/transfers',
       name: 'transfers',
       component: () => import('./components/Transfers.vue')

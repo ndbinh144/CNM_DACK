@@ -2,14 +2,14 @@
   <div>
     <h2 class="title">CHUYỂN KHOẢN</h2>
     <label class="notice_error" :style="{ display: showErrorMsg }">{{ errorMessage }}</label>
-    <div class="form_transfers">
+    <div>
       <!-- Nhập tài khoản chuyển tiền -->
-      <div class="row">
+      <div class="row inputCtx">
         <div class="col-sm-8">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span
-                class="input-group-text btn btn-info"
+                class="input-group-text btn btn-info inputText"
                 id="basic-addon1"
                 @click="chooseAccountSource"
               >Chọn tài khoản</span>
@@ -28,13 +28,13 @@
           <p class="label-info">Số dư tài khoản: {{ surplus }}</p>
         </div>
       </div>
-      <div class="row">
+      <div class="row inputCtx">
         <div class="col-sm-8">
           <!-- Nhập tài khoản nhận tiền -->
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span
-                class="input-group-text btn btn-info"
+                class="input-group-text btn btn-info inputText"
                 id="basic-addon1"
                 @click="chooseAccountDestiny"
               >Chọn tài khoản</span>
@@ -51,7 +51,7 @@
           <!-- Nhập số tiền -->
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">Số tiền chuyển</span>
+              <span class="input-group-text inputText" id="basic-addon1">Số tiền chuyển</span>
             </div>
             <input
               type="text"
@@ -65,7 +65,7 @@
           <!-- Nhập nội dung chuyển -->
           <div class="input-group margin_form">
             <div class="input-group-prepend">
-              <span class="input-group-text">Nhập nội dung</span>
+              <span class="input-group-text inputText">Nhập nội dung</span>
             </div>
             <textarea
               class="form-control"
@@ -76,7 +76,7 @@
           <!-- Chọn hình thức thanh toán -->
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">Chọn hình thức</span>
+              <span class="input-group-text inputText" id="basic-addon1">Chọn hình thức</span>
             </div>
            <select class="form-control">
                 <option value="sourcePay" selected>Người nhận trả phí</option>
@@ -251,9 +251,11 @@ export default {
   font-family: sans-serif;
   color: cadetblue;
 }
-.form_transfers {
-  width: 65rem;
+.inputCtx {
+  width: 80%;
   margin: 0 auto;
+  margin-bottom: 1.5rem;
+  text-align: left;
 }
 .margin_form {
   margin-bottom: 1rem;
@@ -313,5 +315,8 @@ table {
   background-color: rgb(216, 233, 227);
   padding: .5rem;
   font-size: 1.2rem;
+}
+.inputText {
+  width: 9rem;
 }
 </style>
