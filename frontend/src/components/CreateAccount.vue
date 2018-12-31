@@ -42,7 +42,7 @@
 export default {
   data() {
     return {
-      Message: "aaaaaaa",
+      Message: "",
       isDisplayMsg: "none",
       ColorMsg: "red",
       inputAcount: ""

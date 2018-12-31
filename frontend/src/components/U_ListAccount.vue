@@ -4,9 +4,9 @@
     <table class="table" id="tableHead">
       <thead>
         <tr>
-          <th class="column1">STT</th>
-          <th class="column2">Số tài khoản</th>
-          <th class="column2">Số dư hiện tại</th>
+          <th class="column1 btn-info">STT</th>
+          <th class="column2 btn-info">Số tài khoản</th>
+          <th class="column2 btn-info">Số dư hiện tại</th>
         </tr>
       </thead>
     </table>
@@ -38,7 +38,9 @@ export default {};
   margin: 0 auto;
   height: 24.5rem;
   overflow: auto;
-  border: 0.1rem solid rgb(168, 163, 163);
+  border-left: 0.1rem solid rgb(168, 163, 163);
+  border-right: 0.1rem solid rgb(168, 163, 163);
+  border-bottom: 0.1rem solid rgb(168, 163, 163);
 }
 #tableBody {
   width: 100%;
@@ -51,8 +53,7 @@ export default {};
   width: 40%;
   text-align: center;
 }
-th {
-  background-color: rgb(71, 227, 233);
+th, td {
   font-size: 1.2rem;
 }
 </style>
