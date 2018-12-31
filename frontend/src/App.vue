@@ -25,6 +25,6 @@ export default {
   margin-left: auto;
   margin-right: auto;
   min-height: 41rem;
-  background-color: rgb(226, 243, 242);
+  background-color: rgb(245, 250, 249);
 }
 </style>

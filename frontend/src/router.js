@@ -32,6 +32,11 @@ export default new Router({
       component: () => import('./components/CreateAccount.vue')
     },
     {
+      path: '/listaccount',
+      name: 'listaccount',
+      component: () => import('./components/U_ListAccount.vue')
+    },
+    {
       path: '/transfers',
       name: 'transfers',
       component: () => import('./components/Transfers.vue')

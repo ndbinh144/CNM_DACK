@@ -9,9 +9,11 @@ import BootstrapVue from 'bootstrap-vue'
 import 'buefy/dist/buefy.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import * as Css from '../public/css/common.css';
 
 Vue.use(BootstrapVue)
 Vue.use(Buefy)
+Vue.use(Css)
 
 Vue.config.productionTip = false
 
