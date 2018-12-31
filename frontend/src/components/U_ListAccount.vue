@@ -7,6 +7,7 @@
           <th class="column1 btn-info">STT</th>
           <th class="column2 btn-info">Số tài khoản</th>
           <th class="column2 btn-info">Số dư hiện tại</th>
+          <th class="cloumn3 btn-info"></th>
         </tr>
       </thead>
     </table>
@@ -30,11 +31,11 @@ export default {};
 
 <style scoped>
 #tableHead {
-  width: 65%;
+  width: 80%;
   margin: 0 auto;
 }
 .rollTable {
-  width: 65%;
+  width: 80%;
   margin: 0 auto;
   height: 24.5rem;
   overflow: auto;
@@ -50,10 +51,15 @@ export default {};
   text-align: center;
 }
 .column2 {
-  width: 40%;
+  width: 30%;
+  text-align: center;
+}
+.column3 {
+  width: 20%;
   text-align: center;
 }
 th, td {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: 1.2rem;
 }
 </style>

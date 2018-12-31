@@ -42,6 +42,11 @@ export default new Router({
       component: () => import('./components/U_ListReceiver.vue')
     },
     {
+      path: '/viewhistory',
+      name: 'viewhistory',
+      component: () => import('./components/U_ViewHistory')
+    },
+    {
       path: '/transfers',
       name: 'transfers',
       component: () => import('./components/Transfers.vue')
