@@ -39,6 +39,7 @@ route.post('/', (req, res) => {
   dataUserCache = [];
   userRepo.loadAll()
     .then(rows => {
+      dataUserCache = [];
       var len = rows.length;
       for (var i = 0; i < len; ++i) {
         dataUserCache.push(rows[i]);
