@@ -11,6 +11,11 @@ export default new Router({
       path: '/accountmg',
       name: 'accountmg',
       component: () => import('./components/Accountmanager.vue')
+    },
+    {
+      path: '/loginmem',
+      name: 'loginmem',
+      component: () => import('./components/LoginMember.vue')
     }
   ]
 })
