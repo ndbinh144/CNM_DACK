@@ -13,3 +13,15 @@ exports.addAccount = (numberaccount, iduser, balance, openday) => {
 		console.log(sql);
 	return db.load(sql);
 }
+
+exports.deleteAccount = (numberaccount) => {
+	var sql = `delete from ${tableName} where NUMBERACCOUNT = ${numberaccount}`;
+	console.log(sql);
+	return db.load(sql);
+}
+
+exports.updateBalance = (numberaccount, newbalance) => {
+	var sql = `update ${tableName} set balance = ${newbalance} where numberaccount = ${numberaccount}`;
+	console.log(sql);
+	return db.load(sql);
+}

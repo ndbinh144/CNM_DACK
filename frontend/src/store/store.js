@@ -5,13 +5,18 @@ Vue.use(Vuex)
 
 import mutations from './mutations';
 import actions from './actions';
+import getters from './getters';
 
 export default new Vuex.Store({
     state: {
         iduser: 'user1',
         listAccountUser: [],
-        lenListAccountUser: 0
+        numAccountEliminate: "",
+        listAccountTransfers: [],
+        lenListAccountUser: 0,
+        messageRequest: ''
     },
+    getters,
     mutations,
     actions
 })
