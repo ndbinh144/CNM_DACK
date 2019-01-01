@@ -16,6 +16,11 @@ export default new Router({
       path: '/loginmem',
       name: 'loginmem',
       component: () => import('./components/LoginMember.vue')
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('./components/RegisterMember.vue')
     }
   ]
 })

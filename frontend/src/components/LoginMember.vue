@@ -1,22 +1,22 @@
 <template>
-    <div class="modal-card">
+    <div class="modal-card" style="margin-top:100px;">
         <section class="modal-card-body">
             <login-logo></login-logo>
             <h3 class="title has-text-centered has-text-dark">Member Login</h3>
             <div class="box">
-                    <b-field label="E-Mail">
+                    <b-field>
                         <b-input v-model="mail" type="email" placeholder="E-Mail">
                         </b-input>
                     </b-field>
 
-                    <b-field label="Password">
+                    <b-field>
                         <b-input v-model="password" type="password" placeholder="Password" minlength="6" password-reveal>
                         </b-input>
                     </b-field>
                     <b-field>
                         <a class="password-remind-link has-text-dark is-pulled-right" @click="passwordReminder()">I forgot my password</a>
                     </b-field>
-                    <button class="button is-dark is-large is-fullwidth" @click="doLogin()">
+                    <button style="margin-top:50px;" class="button is-dark is-large is-fullwidth" @click="doLogin()">
                         Login
                     </button>
                 </div>
@@ -52,7 +52,7 @@ export default {
     },
     doLogin() {
         this.$parent.close()
-        this.$router.push('/dashboard')
+        this.$router.push('/accountmg')
     }
   }
 }
