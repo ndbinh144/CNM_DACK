@@ -26,6 +26,41 @@ route.get('/', (req, res) => {
   }
 });
 
+route.get('/:iduser', (req, res) => {
+  var iduser = req.params.iduser;
+  var listAccountUser = [];
+  if (dataAccountCache.length != 0) {
+    var len = dataAccountCache.length;
+    for (var i = 0; i < len; ++i) {
+      if (dataAccountCache[i].IDUSER === iduser) {
+        listAccountUser.push(dataAccountCache[i]);
+      }
+    }
+    res.json({ listAccountUser });
+  } else {
+    accountRepo.loadAll()
+      .then(rows => {
+        var len = rows.length;
+        for (var i = 0; i < len; ++i) {
+          dataAccountCache.push(rows[i]);
+        }
+        for (var i = 0; i < len; ++i) {
+          if (dataAccountCache[i].IDUSER === iduser) {
+            listAccountUser.push(dataAccountCache[i]);
+          }
+        }
+        res.json({ listAccountUser });
+      }).catch(err => {
+        console.log(err);
+        res.statusCode = 500;
+        res.end("View error on console");
+        res.json({
+          listAccountUser: null
+        });
+      });
+  }
+});
+
 route.post('/', (req, res) => {
   var numberaccount = req.body.numberaccount;
   var iduser = req.body.iduser;
@@ -72,6 +107,6 @@ route.get('/createAccountNum', (req, res) => {
         numAccountString: null
       });
     })
-})
+});
 
 module.exports = route;

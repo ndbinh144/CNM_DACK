@@ -1,6 +1,7 @@
 <template>
   <div>
     <h2 class="title">DANH SÁCH TÀI KHOẢN THANH TOÁN</h2>
+    <label class="notice" :style="{ display: isDisplayMsg, color: ColorMsg }">{{ Message }}</label>
     <table class="table" id="tableHead">
       <thead>
         <tr>
@@ -14,10 +15,13 @@
     <div class="rollTable">
       <table class="table" id="tableBody">
         <tbody>
-          <tr v-for="(account, index) in list" :key="index">
-            <td class="column1">{{ index+1 }}</td>
-            <td class="column2">{{ account.id }}</td>
-            <td class="column2">{{ account.surplus }}</td>
+          <tr v-for="(account, index) in listAccountUser" :key="index">
+            <td class="column1">{{ index + 1 }}</td>
+            <td class="column2">{{ account.NUMBERACCOUNT }}</td>
+            <td class="column2">{{ account.BALANCE }}</td>
+            <td class="column3">
+              <button class="btn btn-warning" @click="closeAccount(account.NUMBERACCOUNT)">Đóng</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -26,7 +30,42 @@
 </template>
 
 <script>
-export default {};
+import { mapActions } from 'vuex';
+export default {
+  computed: {
+    listAccountUser() {
+      return this.$store.state.listAccountUser;
+    },
+    iduser() {
+      return this.$store.state.iduser;
+    },
+    lenListAccountUser() {
+      return this.$store.state.lenListAccountUser;
+    }
+  },
+  data() {
+    return {
+      isDisplayMsg: "none",
+      Message: "",
+      ColorMsg: "red"
+    }
+  },
+  methods: {
+    ...mapActions([
+      'getListAccountUser'
+    ]),
+    closeAccount(accountNum) {
+      var self = this;
+      if (self.lenListAccountUser > 1) {
+
+      }
+    }
+  },
+  mounted() {
+    var self = this;
+    self.getListAccountUser(self.iduser);
+  }
+};
 </script>
 
 <style scoped>
@@ -61,5 +100,8 @@ export default {};
 th, td {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: 1.2rem;
+}
+button {
+  font-size: 1.1rem;
 }
 </style>
