@@ -1,7 +1,14 @@
 <template>
     <div class="modal-card" style="margin-top:100px;">
         <section class="modal-card-body">
-            <login-logo></login-logo>
+            <login-logo>
+                <img
+                    class="menu_img"
+                    src="../assets/login.png"
+                    fluid
+                    alt="Responsive image"
+                >
+            </login-logo>
             <h3 class="title has-text-centered has-text-dark">Member Login</h3>
             <div class="box">
                     <b-field>
@@ -57,3 +64,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.menu_img {
+  height: 2.5rem;
+  width: 2.5rem;
+}
+</style>
