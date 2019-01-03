@@ -14,7 +14,9 @@ export default new Vuex.Store({
         numAccountEliminate: "",
         listAccountTransfers: [],
         lenListAccountUser: 0,
-        messageRequest: ''
+        messageRequest: '',
+        listTransactionHistory: [],
+        numAccountHistory: ""
     },
     getters,
     mutations,

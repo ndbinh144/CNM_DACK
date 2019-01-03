@@ -8,5 +8,6 @@ route.get('/', (req, res) => {
 route.use('/user', require('./userController.js'));
 route.use('/account', require('./accountController.js'));
 route.use('/token', require('./tokenController.js'));
+route.use('/transaction', require('./transactionController.js'));
 
 module.exports = route;

@@ -39,6 +39,15 @@ export default {
     })
   },
 
+  getListTransactionHistory({commit}, numAcc) {
+    var urls = url + 'transaction/' + numAcc;
+    if (numAcc != "") {
+      axios.get(urls).then(rs => {
+        commit('getListTransactionHistory', rs.data);
+      })
+    }
+  },
+
   setMessage({commit}, msg) {
     commit('setMessage', msg);
   },

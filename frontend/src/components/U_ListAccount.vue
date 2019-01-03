@@ -8,7 +8,8 @@
           <th class="column1 btn-info">STT</th>
           <th class="column2 btn-info">Số tài khoản</th>
           <th class="column2 btn-info">Số dư hiện tại</th>
-          <th class="cloumn3 btn-info">Đóng tài khoản</th>
+          <th class="column2 btn-info">Xem lịch sử giao dịch</th>
+          <th class="cloumn2 btn-info">Đóng tài khoản</th>
         </tr>
       </thead>
     </table>
@@ -19,7 +20,10 @@
             <td class="column1">{{ index + 1 }}</td>
             <td class="column2">{{ account.NUMBERACCOUNT }}</td>
             <td class="column2">{{ account.BALANCE }}</td>
-            <td class="column3">
+            <td class="column2">
+              <button class="btn btn-info" @click="viewHistory(account.NUMBERACCOUNT)">Xem</button>
+            </td>
+            <td class="column2">
               <button class="btn btn-warning" @click="closeAccount(account.NUMBERACCOUNT)">Đóng</button>
             </td>
           </tr>
@@ -41,7 +45,11 @@
         <div class="rollTable">
           <table class="table">
             <tbody>
-              <tr v-for="(account, index) in listAccountTransfers" :key="index" @click="chooseAccTransfer(account.NUMBERACCOUNT)">
+              <tr
+                v-for="(account, index) in listAccountTransfers"
+                :key="index"
+                @click="chooseAccTransfer(account.NUMBERACCOUNT)"
+              >
                 <td class="column1">{{ index + 1 }}</td>
                 <td class="column4">{{ account.NUMBERACCOUNT }}</td>
                 <td class="column4">{{ account.BALANCE }}</td>
@@ -90,55 +98,67 @@ export default {
     ...mapActions(["getListAccountUser"]),
     closeAccount(accountNum) {
       var self = this;
-      self.ColorMsg = "blue";
-      if (self.lenListAccountUser > 1) {
-        // Kiểm tra số dư có lớn hơn 0
-        var urls = self.url + "account/checkbalance";
-        axios
-          .post(urls, {
-            accountnumber: accountNum
-          })
-          .then(rs => {
-            if (rs.data.status === 2) {
-              // Tài khoản hết tiền
-              var info = {
-                accountNum: accountNum,
-                iduser: self.iduser
-              };
-              self.$store.dispatch("closeAccount", info);
-              self.displayMessage();
-            } else if (rs.data.status === 1) {
-              // Tài khoản còn số dư
-              self.$store.dispatch('applyEliminate', accountNum);
-              self.displayModal();
-            }
-          });
-      } else {
-        var msg = "Phải duy trì ít nhất một tài khoản thanh toán";
-        self.$store.dispatch("setMessage", msg);
-        self.displayMessage();
-        self.ColorMsg = "red";
-      }
+      self.$dialog.confirm({
+        message: "Đóng tài khoản này ?",
+        onConfirm: () => {
+          self.ColorMsg = "blue";
+          if (self.lenListAccountUser > 1) {
+            // Kiểm tra số dư có lớn hơn 0
+            var urls = self.url + "account/checkbalance";
+            axios
+              .post(urls, {
+                accountnumber: accountNum
+              })
+              .then(rs => {
+                if (rs.data.status === 2) {
+                  // Tài khoản hết tiền
+                  var info = {
+                    accountNum: accountNum,
+                    iduser: self.iduser
+                  };
+                  self.$store.dispatch("closeAccount", info);
+                  self.displayMessage();
+                } else if (rs.data.status === 1) {
+                  // Tài khoản còn số dư
+                  self.$store.dispatch("applyEliminate", accountNum);
+                  self.displayModal();
+                }
+              });
+          } else {
+            var msg = "Phải duy trì ít nhất một tài khoản thanh toán";
+            self.$store.dispatch("setMessage", msg);
+            self.displayMessage();
+            self.ColorMsg = "red";
+          }
+        }
+      });
     },
+    viewHistory(accountNum) {
+      var self = this;
+      self.$router.push('/viewhistory/' + accountNum);
+    },
+
     chooseAccTransfer(numAccChoosed) {
       var self = this;
       var numAccSource = self.$store.state.numAccountEliminate;
-      var urls = self.url + 'account/transfers';
-      axios.post(urls, {
-        numAccSource: numAccSource,
-        numAccDestiny: numAccChoosed
-      }).then(rs => {
-        if (rs.data.status === 1) {
-          var msgSuccess = "Chuyển khoảng và đóng thành công tài khoản";
-          self.ColorMsg = "blue";
-          self.$store.dispatch("setMessage", msgSuccess);
-          self.getListAccountUser(self.iduser);
-        } else {
-          var msgError = "Chuyển khoảng và đóng tài khoản thất bại";
-          self.ColorMsg = "blue";
-          self.$store.dispatch("setMessage", msgError);
-        }
-      })
+      var urls = self.url + "account/transfers";
+      axios
+        .post(urls, {
+          numAccSource: numAccSource,
+          numAccDestiny: numAccChoosed
+        })
+        .then(rs => {
+          if (rs.data.status === 1) {
+            var msgSuccess = "Chuyển khoảng và đóng thành công tài khoản";
+            self.ColorMsg = "blue";
+            self.$store.dispatch("setMessage", msgSuccess);
+            self.getListAccountUser(self.iduser);
+          } else {
+            var msgError = "Chuyển khoảng và đóng tài khoản thất bại";
+            self.ColorMsg = "blue";
+            self.$store.dispatch("setMessage", msgError);
+          }
+        });
       self.displayMessage();
       self.hideModal();
     },
@@ -165,11 +185,11 @@ export default {
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 }
 #tableHead {
-  width: 80%;
+  width: 90%;
   margin: 0 auto;
 }
 .rollTable {
-  width: 80%;
+  width: 90%;
   margin: 0 auto;
   height: 24.5rem;
   overflow: auto;
@@ -181,15 +201,11 @@ export default {
   width: 100%;
 }
 .column1 {
-  width: 20%;
+  width: 10%;
   text-align: center;
 }
 .column2 {
-  width: 30%;
-  text-align: center;
-}
-.column3 {
-  width: 20%;
+  width: 25%;
   text-align: center;
 }
 .column4 {
@@ -204,5 +220,4 @@ td {
 button {
   font-size: 1.1rem;
 }
-
 </style>

@@ -20,5 +20,9 @@ export default {
 
   applyEliminate(state, data) {
     state.numAccountEliminate = data;
+  },
+
+  getListTransactionHistory(state, data) {
+    state.listTransactionHistory = data;
   }
 }
