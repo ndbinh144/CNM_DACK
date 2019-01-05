@@ -13,7 +13,6 @@ export default new Router({
       component: () => import('./components/Accountmanager.vue')
     },
     {
-<<<<<<< HEAD
       path: '/loginmem',
       name: 'loginmem',
       component: () => import('./components/LoginMember.vue')
@@ -22,7 +21,8 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: () => import('./components/RegisterMember.vue')
-=======
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
@@ -60,7 +60,6 @@ export default new Router({
       path: '/transfers',
       name: 'transfers',
       component: () => import('./components/Transfers.vue')
->>>>>>> master
     }
   ]
 })

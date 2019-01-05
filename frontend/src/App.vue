@@ -14,10 +14,6 @@ export default {
 }
 </script>
 
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -28,10 +24,6 @@ export default {
   margin-left: auto;
   margin-right: auto;
   min-height: 41rem;
-<<<<<<< HEAD
   background-color: rgb(226, 243, 242);
-=======
-  background-color: rgb(245, 250, 249);
->>>>>>> master
 }
 </style>
