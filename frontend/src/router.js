@@ -46,8 +46,9 @@ export default new Router({
       component: () => import('./components/U_ListAccount.vue')
     },
     {
-      path: '/listreceiver',
+      path: '/listreceiver/:iduser',
       name: 'listreceiver',
+      props: true,
       component: () => import('./components/U_ListReceiver.vue')
     },
     {

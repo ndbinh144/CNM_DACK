@@ -14,6 +14,10 @@ export default {
     }
   },
 
+  getListReceiver(state, data) {
+    state.listReceiver = data;
+  },
+
   setMessage(state, data) {
     state.messageRequest = data;
   },

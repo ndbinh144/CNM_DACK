@@ -48,6 +48,14 @@ export default {
     }
   },
 
+  getListReceiver({commit}, iduser) {
+    var urls = url + 'receiver/' + iduser;
+    axios.get(urls)
+    .then(rs => {
+      commit('getListReceiver', rs.data);
+    })
+  },
+
   setMessage({commit}, msg) {
     commit('setMessage', msg);
   },

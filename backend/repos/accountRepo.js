@@ -25,3 +25,10 @@ exports.updateBalance = (numberaccount, newbalance) => {
 	console.log(sql);
 	return db.load(sql);
 }
+
+exports.getNameByNumberAccount = (numberaccount) => {
+	var sql = `select name from user u, accountbank a where u.iduser = a.iduser ` + 
+						`and a.numberaccount = ${numberaccount}`;
+	console.log(sql);
+	return db.load(sql);
+}

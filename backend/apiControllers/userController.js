@@ -75,7 +75,19 @@ route.post('/', (req, res) => {
       })
     });
 });
-// Xóa một tài khoản user
+
+// Lấy tên người dùng dựa vào số tài khoản
+route.get('/name/:accNum', (req, res) => {
+  var accNum = req.params.accNum;
+  userRepo.getNameByAccoutNum(accNum)
+  .then(rows => {
+    res.json(rows);
+  }).catch(err => {
+    console.log(err);
+    res.statusCode = 500;
+    res.end('View error on console');
+  });
+});
 
 // function
 function checkExistUser(iduser) {
