@@ -18,11 +18,6 @@ export default new Router({
       component: () => import('./components/LoginMember.vue')
     },
     {
-      path: '/register',
-      name: 'register',
-      component: () => import('./components/RegisterMember.vue')
-    },
-    {
       path: '/about',
       name: 'about',
       // route level code-splitting
@@ -61,6 +56,16 @@ export default new Router({
       path: '/transfers',
       name: 'transfers',
       component: () => import('./components/Transfers.vue')
+    },
+    {
+      path: '/staff/createuser',
+      name: 'staff',
+      component: () => import('./components/StaffCreateUser.vue')
+    },
+    {
+      path: '/staff/createaccount',
+      name: 'staff',
+      component: () => import('./components/StaffCreateAccount.vue')
     }
   ]
 })
