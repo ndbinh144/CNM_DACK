@@ -8,11 +8,6 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/accountmg',
-      name: 'accountmg',
-      component: () => import('./components/Accountmanager.vue')
-    },
-    {
       path: '/loginmem',
       name: 'loginmem',
       component: () => import('./components/LoginMember.vue')
