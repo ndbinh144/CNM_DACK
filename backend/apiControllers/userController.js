@@ -36,7 +36,6 @@ route.post('/', (req, res) => {
   var phonenumber = req.body.phonenumber;
   var email = req.body.email;
   var type = req.body.type;
-  dataUserCache = [];
   userRepo.loadAll()
     .then(rows => {
       dataUserCache = [];
@@ -53,6 +52,7 @@ route.post('/', (req, res) => {
         console.log('Có thể thêm tài khoản');
         userRepo.addUser(iduser, password, name, phonenumber, email, type)
           .then(rows => {
+            dataUserCache = [];
             res.json({
               status: 1
             })
@@ -87,6 +87,11 @@ route.get('/name/:accNum', (req, res) => {
     res.statusCode = 500;
     res.end('View error on console');
   });
+});
+
+// Yêu cầu gửi otp
+route.get('/requireotp', (req, res) => {
+  
 });
 
 // function

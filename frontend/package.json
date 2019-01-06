@@ -12,6 +12,7 @@
     "buefy": "^0.7.1",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
+    "sendotp": "^1.2.9",
     "socket.io-client": "^2.2.0",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",

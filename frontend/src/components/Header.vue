@@ -22,7 +22,7 @@
           <b-nav-item-dropdown right>
             <!-- Using button-content slot -->
             <template slot="button-content">
-              <em class="user">{{ username }}</em>
+              <em class="user">{{ iduser }}</em>
             </template>
             <b-dropdown-item href="#">Thông tin</b-dropdown-item>
             <b-dropdown-item href="#">Đăng xuất</b-dropdown-item>
@@ -55,8 +55,8 @@ export default {
     };
   },
   computed: {
-    username() {
-      return this.$store.state.username;
+    iduser() {
+      return this.$store.state.iduser;
     },
     menuDrop() {
       return this.$store.state.list_Menu;

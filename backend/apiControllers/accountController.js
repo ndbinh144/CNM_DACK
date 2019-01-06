@@ -31,41 +31,14 @@ route.get('/', (req, res) => {
 // Lấy danh sách số tài khoản theo username
 route.get('/:iduser', (req, res) => {
   var iduser = req.params.iduser;
-  var listAccountUser = [];
-  if (dataAccountCache.length != 0) {
-    var len = dataAccountCache.length;
-    for (var i = 0; i < len; ++i) {
-      if (dataAccountCache[i].IDUSER === iduser) {
-        listAccountUser.push(dataAccountCache[i]);
-      }
-    }
-    res.json({
-      listAccountUser
+  accountRepo.loadByIduser(iduser)
+    .then(rows => {
+      res.json(rows);
+    }).catch(err => {
+      console.log(err);
+      res.statusCode = 500;
+      res.end("View error on console");
     });
-  } else {
-    accountRepo.loadAll()
-      .then(rows => {
-        var len = rows.length;
-        for (var i = 0; i < len; ++i) {
-          dataAccountCache.push(rows[i]);
-        }
-        for (var i = 0; i < len; ++i) {
-          if (dataAccountCache[i].IDUSER === iduser) {
-            listAccountUser.push(dataAccountCache[i]);
-          }
-        }
-        res.json({
-          listAccountUser
-        });
-      }).catch(err => {
-        console.log(err);
-        res.statusCode = 500;
-        res.end("View error on console");
-        res.json({
-          listAccountUser: null
-        });
-      });
-  }
 });
 
 // Thêm một tài khoản
@@ -142,50 +115,23 @@ route.delete('/:numaccount', (req, res) => {
 // Kiểm tra số dư tài khoản có lớn hơn 0
 route.post('/checkbalance', (req, res) => {
   var numAccount = req.body.accountnumber;
-  if (dataAccountCache.length != 0) {
-    var len = dataAccountCache.length;
-    for (var i = 0; i < len; ++i) {
-      if (dataAccountCache[i].NUMBERACCOUNT === numAccount) {
-        if (dataAccountCache[i].BALANCE > 0) {
-          res.json({
-            status: 1
-          });
-        } else {
-          res.json({
-            status: 2
-          })
-        }
-      }
+  
+  accountRepo.getBalanceByAccnum(numAccount)
+  .then(rows => {
+    if (rows[0].balance > 0) {
+      res.json({
+        status: 1
+      })
+    } else {
+      res.json({
+        status: 2
+      })
     }
-  } else {
-    accountRepo.loadAll()
-      .then(rows => {
-        var len = rows.length;
-        for (var i = 0; i < len; ++i) {
-          dataAccountCache.push(rows[i]);
-        }
-        for (var i = 0; i < len; ++i) {
-          if (dataAccountCache[i].NUMBERACCOUNT === numAccount) {
-            if (dataAccountCache[i].BALANCE > 0) {
-              res.json({
-                status: 1
-              });
-            } else {
-              res.json({
-                status: 2
-              })
-            }
-          }
-        }
-      }).catch(err => {
-        console.log(err);
-        res.statusCode = 500;
-        res.end('View error on console');
-        res.json({
-          status: 3
-        });
-      });
-  }
+  }).catch(err => {
+    console.log(err);
+    res.statusCode = 500;
+    res.end('View error on console');
+  })
 });
 
 // Chuyển tiền từ một tài khoản qua một tài khoản
@@ -243,6 +189,28 @@ route.post('/transfers', (req, res) => {
     });
 });
 
+// Check account có tồn tại, trả về thông tin account
+route.get('/infoaccount/:accNum', (req, res) => {
+  var accNum = req.params.accNum;
+  accountRepo.getInfoByNumberAccount(accNum)
+    .then(rows => {
+      if (rows.length != 0) {
+        res.json({
+          status: 1,
+          info: rows[0]
+        })
+      } else {
+        res.json({
+          status: 2
+        })
+      }
+    }).catch(err => {
+      console.log(err);
+      res.statusCode = 500;
+      res.end('View error on console');
+    });
+});
+
 // Check số tài khoản có phù hợp để thêm vào danh sách nhận
 route.post('/checkaccount', (req, res) => {
   var accNum = req.body.accNum;
@@ -254,32 +222,77 @@ route.post('/checkaccount', (req, res) => {
       for (var i = 0; i < len; ++i) {
         if (rows[i].NUMBERACCOUNT === accNum) {
           receiverRepo.loadListByIDuser(iduser)
-          .then(rows2 => {
-            var len2 = rows2.length;
-            var dem2 = 0;
-            for (var j = 0; j < len2; ++j) {
-              if (accNum === rows2[j].NUMBERACCOUNT) {
+            .then(rows2 => {
+              var len2 = rows2.length;
+              var dem2 = 0;
+              for (var j = 0; j < len2; ++j) {
+                if (accNum === rows2[j].NUMBERACCOUNT) {
+                  res.json({
+                    status: 3
+                  })
+                } else dem2++;
+              }
+              if (dem2 === len2) {
                 res.json({
-                  status: 3
+                  status: 1
                 })
-              } else dem2++;
-            }
-            if (dem2 === len2) {
-              res.json({
-                status: 1
-              })
-            }
-          }).catch(err => {
-            console.log(err);
-            res.statusCode = 500;
-            res.end('View error on console');
-          });
+              }
+            }).catch(err => {
+              console.log(err);
+              res.statusCode = 500;
+              res.end('View error on console');
+            });
         } else dem++;
       }
       if (dem === len) {
         res.json({
           status: 2
         });
+      }
+    }).catch(err => {
+      console.log(err);
+      res.statusCode = 500;
+      res.end('View error on console');
+    })
+});
+
+// Kiểm tra số tiền gửi có lơn số dư trong tài khoản
+route.post('/checkamount', (req, res) => {
+  var accNum = req.body.accNum;
+  var amount = req.body.amount;
+  accountRepo.loadBalanceById(accNum)
+    .then(rows => {
+      var balance = rows[0].balance;
+      if (amount < balance) {
+        res.json({
+          status: 1
+        })
+      } else {
+        res.json({
+          status: 2
+        })
+      }
+    }).catch(err => {
+      console.log(err);
+      res.statusCode = 500;
+      res.end('View error on console');
+    });
+});
+
+// Kiểm tra số tài khoản của user hay không
+route.post('/checkaccountuser', (req, res) => {
+  var accNum = req.body.accNum;
+  var iduser = req.body.iduser;
+  accountRepo.loadbyIduserAccNum(accNum, iduser)
+    .then(rows => {
+      if (rows.length === 1) {
+        res.json({
+          status: 1
+        })
+      } else {
+        res.json({
+          status: 2
+        })
       }
     }).catch(err => {
       console.log(err);

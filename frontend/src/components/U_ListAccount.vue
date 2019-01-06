@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="title">DANH SÁCH TÀI KHOẢN THANH TOÁN</h2>
-    <label class="notice" :style="{ display: isDisplayMsg, color: ColorMsg }">{{ messageRequest }}</label>
+    <label class="notice" :style="{ display: isDisplayMsg, color: colorMsg }">{{ Message }}</label>
     <table class="table" id="tableHead">
       <thead>
         <tr>
@@ -24,7 +24,10 @@
               <button class="btn btn-info" @click="viewHistory(account.NUMBERACCOUNT)">Xem</button>
             </td>
             <td class="column2">
-              <button class="btn btn-warning" @click="closeAccount(account.NUMBERACCOUNT)">Đóng</button>
+              <button
+                class="btn btn-warning"
+                @click="closeAccount(account.NUMBERACCOUNT, account.BALANCE)"
+              >Đóng</button>
             </td>
           </tr>
         </tbody>
@@ -89,19 +92,24 @@ export default {
   },
   data() {
     return {
+      Message: "",
+      colorMsg: "red",
       isDisplayMsg: "none",
       ColorMsg: "blue",
-      url: "http://localhost:3000/api/"
+      url: "http://localhost:3000/api/",
+      indexActive: 0,
+      balanceDelete: ""
     };
   },
   methods: {
     ...mapActions(["getListAccountUser"]),
-    closeAccount(accountNum) {
+    closeAccount(accountNum, balance) {
       var self = this;
       self.$dialog.confirm({
         message: "Đóng tài khoản này ?",
         onConfirm: () => {
           self.ColorMsg = "blue";
+          self.balanceDelete = balance;
           if (self.lenListAccountUser > 1) {
             // Kiểm tra số dư có lớn hơn 0
             var urls = self.url + "account/checkbalance";
@@ -117,7 +125,7 @@ export default {
                     iduser: self.iduser
                   };
                   self.$store.dispatch("closeAccount", info);
-                  self.displayMessage();
+                  self.displayMessage("Đóng thành công tài khoản", "blue");
                 } else if (rs.data.status === 1) {
                   // Tài khoản còn số dư
                   self.$store.dispatch("applyEliminate", accountNum);
@@ -125,44 +133,52 @@ export default {
                 }
               });
           } else {
-            var msg = "Phải duy trì ít nhất một tài khoản thanh toán";
-            self.$store.dispatch("setMessage", msg);
-            self.displayMessage();
-            self.ColorMsg = "red";
+            self.displayMessage("Phải duy trì ít nhất một tài khoản", "red");
           }
         }
       });
     },
     viewHistory(accountNum) {
       var self = this;
-      self.$router.push('/viewhistory/' + accountNum);
+      self.$router.push("/viewhistory/" + accountNum);
     },
 
     chooseAccTransfer(numAccChoosed) {
       var self = this;
       var numAccSource = self.$store.state.numAccountEliminate;
-      var urls = self.url + "account/transfers";
+      var urls = self.url + "transaction";
       axios
         .post(urls, {
-          numAccSource: numAccSource,
-          numAccDestiny: numAccChoosed
+          accSource: numAccSource,
+          accDestiny: numAccChoosed,
+          amount: self.balanceDelete,
+          content: ""
         })
         .then(rs => {
           if (rs.data.status === 1) {
-            var msgSuccess = "Chuyển khoảng và đóng thành công tài khoản";
-            self.ColorMsg = "blue";
-            self.$store.dispatch("setMessage", msgSuccess);
+            self.displayMessage(
+              "Chuyển khoản và đóng thành công tài khoản",
+              "blue"
+            );
+            var info = {
+              accountNum: numAccSource,
+              iduser: self.iduser
+            };
+            self.$store.dispatch("closeAccount", info);
             self.getListAccountUser(self.iduser);
           } else {
-            var msgError = "Chuyển khoảng và đóng tài khoản thất bại";
-            self.ColorMsg = "blue";
-            self.$store.dispatch("setMessage", msgError);
+            self.displayMessage(
+              "Chuyển khoảng và đóng tài khoản thất bại",
+              "red"
+            );
           }
         });
-      self.displayMessage();
       self.hideModal();
     },
-    displayMessage() {
+
+    displayMessage(msg, color) {
+      this.Message = msg;
+      this.colorMsg = color;
       this.isDisplayMsg = "block";
     },
     displayModal() {
@@ -217,6 +233,10 @@ td {
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   font-size: 1.2rem;
 }
+tr:hover {
+  background-color: rgb(210, 230, 231);
+}
+
 button {
   font-size: 1.1rem;
 }

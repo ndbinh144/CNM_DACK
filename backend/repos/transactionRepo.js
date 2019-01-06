@@ -12,3 +12,9 @@ exports.loadByAccountNumber = (accountnum) => {
 	console.log(sql);
 	return db.load(sql);
 }
+
+exports.addTransaction = (accSource, accDestiny, amount, content, time) => {
+	var sql = `insert into ${tableName} values('${accSource}', '${accDestiny}', ${amount}, '${content}', '${time}')`;
+	console.log(sql);
+	return db.load(sql);
+}
