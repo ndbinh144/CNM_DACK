@@ -30,6 +30,8 @@
             <th class="column1 btn-info">STT</th>
             <th class="column2 btn-info">Số tài khoản</th>
             <th class="column2 btn-info">Tên gợi nhớ</th>
+            <th class="column2 btn-info">Sửa tên</th>
+            <th class="column2 btn-info">Xóa tài khoản</th>
           </tr>
         </thead>
       </table>
@@ -40,11 +42,39 @@
               <td class="column1">{{ index + 1 }}</td>
               <td class="column2">{{ acc.NUMBERACCOUNT }}</td>
               <td class="column2">{{ acc.NAME }}</td>
+              <td class="column2">
+                <button class="btn btn-success" @click="updateAccount(acc.NUMBERACCOUNT, acc.NAME)">Sửa</button>
+              </td>
+              <td class="column2">
+                <button class="btn btn-danger" @click="deleteAccount(acc.NUMBERACCOUNT)">Xóa</button>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
+    <!-- Modal chỉnh sửa account -->
+    <b-modal ref="Modal1" hide-footer title="Chỉnh sửa tài khoản" size="lg">
+      <div class="d-block text-center">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend inputText">
+            <span
+              class="input-group-text"
+              id="basic-addon1"
+            >Tên mới</span>
+          </div>
+          <input
+            type="text"
+            class="form-control inputText"
+            placeholder="Nhập tên gợi nhớ mới"
+            aria-describedby="basic-addon1"
+            id="number_account"
+            v-model="newName"
+          >
+        </div>
+      </div>
+      <button class="btn btn-success" @click="Update">Xác nhận</button>
+    </b-modal>
   </div>
 </template>
 
@@ -67,6 +97,8 @@ export default {
       ColorMsg: "red",
       accNum: "",
       name: "",
+      newName: "",
+      numAccUpdate: "",
       url: "http://localhost:3000/api/"
     };
   },
@@ -107,6 +139,53 @@ export default {
       } else {
         self.showMessage("Hãy nhập thông tin số tài khoản", "red");
       }
+    },
+
+    updateAccount(numAcc, name) {
+      var self = this;
+      self.numAccUpdate = numAcc;
+      self.newName = name;
+      self.displayModal1();
+    },
+
+    Update() {
+      var self = this;
+      var urls = self.url + 'receiver/update';
+      axios.post(urls, {
+        newName: self.newName,
+        numAcc: self.numAccUpdate
+      }).then(rs => {
+        if (rs.data.status === 1) {
+          self.hideModal1();
+          self.getListReceiver(self.iduser);
+          self.showMessage("Cập nhật thành công", "blue");
+        }
+      })
+    },
+
+    deleteAccount(numAcc) {
+      var self = this;
+      self.$dialog.confirm({
+        message: "Xóa tài khoản này khỏi danh bạ?",
+        onConfirm: () => {
+          var urls = self.url + 'receiver/' + numAcc;
+          axios.delete(urls)
+          .then(rs => {
+            if (rs.data.status === 1) {
+              self.showMessage("Xóa thành công tài khoản", "blue");
+              self.getListReceiver(self.iduser);
+            }
+          })
+        }
+      })
+    },
+
+    displayModal1() {
+      this.$refs.Modal1.show();
+    },
+
+    hideModal1() {
+      this.$refs.Modal1.hide();
     },
 
     showMessage(msg, color) {
@@ -158,11 +237,11 @@ export default {
   width: 100%;
 }
 .column1 {
-  width: 20%;
+  width: 10%;
   text-align: center;
 }
 .column2 {
-  width: 40%;
+  width: 22.5%;
   text-align: center;
 }
 th,

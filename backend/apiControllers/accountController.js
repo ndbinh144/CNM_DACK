@@ -97,18 +97,16 @@ route.delete('/:numaccount', (req, res) => {
   accountRepo.deleteAccount(numAccount)
     .then(rows => {
       dataAccountCache = [];
-      res.json({
-        status: 1,
-        messageRequest: "Đóng tài khoản thành công"
+      receiverRepo.deleteReceiver(numAccount)
+      .then(rows => {
+        res.json({
+          status: 1
+        })
       })
     }).catch(err => {
       console.log(err);
       res.statusCode = 500;
       res.end('View error on console');
-      Response.json({
-        status: 2,
-        messageRequest: "Đóng tài khoản thất bại, hãy thử lại sau"
-      })
     })
 });
 

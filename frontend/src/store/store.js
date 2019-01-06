@@ -10,6 +10,11 @@ import getters from './getters';
 export default new Vuex.Store({
     state: {
         iduser: 'user1',
+        type: 0,
+        menuUser: [],
+        menuStaff: [],
+        iduser: '',
+        userType: -1,
         listAccountUser: [],
         numAccountEliminate: "",
         listAccountTransfers: [],

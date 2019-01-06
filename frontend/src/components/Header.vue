@@ -37,10 +37,12 @@
             @mouseover="mouseOverItem(index)"
             @mouseleave="mouseLeaveItem(index)"
             :class="{ active: index == indexActive }"
-            v-for="(item, index) in menuDrop"
-            :key="item.id"
+            v-for="(menu, index) in menuUser"
+            :key="index"
             @click="chooseItem"
-          >{{ item.menuName }}</b-list-group-item>
+          >
+          <router-link :to="{ path: menu.ref }">{{ menu.name }}</router-link>
+          </b-list-group-item>
         </b-list-group>
       </div>
     </div>
@@ -48,6 +50,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -55,14 +58,22 @@ export default {
     };
   },
   computed: {
+    type() {
+      return this.$store.state.type;
+    },
     iduser() {
       return this.$store.state.iduser;
     },
-    menuDrop() {
-      return this.$store.state.list_Menu;
+    menuUser() {
+      return this.$store.state.menuUser;
     }
   },
+  mounted() {
+    var self = this;
+    self.initMenuUser(self.iduser);
+  },
   methods: {
+    ...mapActions(["initMenuUser"]),
     displayMenu() {
       this.changeDisplayMenu();
     },

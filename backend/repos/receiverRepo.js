@@ -12,3 +12,15 @@ exports.addReceiver = (iduser, accNum, name) => {
 	console.log(sql);
 	return db.load(sql);
 }
+
+exports.deleteReceiver = (numberaccount) => {
+	var sql = `delete from ${tableName} where numberaccount = '${numberaccount}'`;
+	console.log(sql);
+	return db.load(sql);
+}
+
+exports.updateReceiver = (numberaccount, name) => {
+	var sql = `update ${tableName} set name = '${name}' where numberaccount = '${numberaccount}'`;
+	console.log(sql);
+	return db.load(sql);
+}

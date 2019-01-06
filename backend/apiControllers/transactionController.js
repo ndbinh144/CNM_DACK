@@ -2,6 +2,7 @@ var express = require('express');
 
 var route = express.Router();
 var transactionRepo = require('../repos/transactionRepo.js');
+var receiverRepo = require('../repos/receiverRepo.js');
 var accountRepo = require('../repos/accountRepo.js');
 var help = require('../help/help.js');
 dataTranscationCache = [];
@@ -32,6 +33,28 @@ route.post('/', (req, res) => {
   var accDestiny = req.body.accDestiny;
   var amount = req.body.amount;
   var content = req.body.content;
+
+  // Check nếu danh sách nhận chưa có account này thì thêm vào
+  accountRepo.getIduserbyNumAcc(accSource)
+  .then(rows => {
+    receiverRepo.loadListByIDuser(rows[0].iduser)
+    .then(rows2 => {
+      var len = rows2.length;
+      var dem = 0;
+      for (var i = 0; i < len; ++i) {
+        if (rows2[i].numberaccount != accDestiny) {
+          dem++;
+        }
+      }
+      if (dem === len) {
+        accountRepo.getNameByNumberAccount(accDestiny)
+        .then(rows3 => {
+          receiverRepo.addReceiver(rows[0].iduser, accDestiny, rows3[0].name);
+        })
+      }
+    })
+  });
+
   var time = help.formatDate(new Date());
   transactionRepo.addTransaction(accSource, accDestiny, amount, content, time)
   .then(rows => {
