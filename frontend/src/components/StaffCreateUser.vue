@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="title">TẠO TÀI KHOẢN NGƯỜI DÙNG</h2>
+    <h2 style="margin-top:50px;" class="title">TẠO TÀI KHOẢN NGƯỜI DÙNG</h2>
     <label class="notice" :style="{ display: isDisplayMsg, color: ColorMsg }">{{ Message }}</label>
     <!-- username -->
     <div class="form-group row inputCtx">
@@ -81,7 +81,7 @@
       </div>
     </div>
     <!-- Btn xác nhận -->
-    <button class="btn btn-success btn_transfers" @click="createUser">Xác nhận</button>
+    <button style="margin-top:30px;" class="btn btn-success btn_transfers" @click="createUser">Xác nhận</button>
   </div>
 </template>
 

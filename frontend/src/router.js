@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
 
 Vue.use(Router)
 
@@ -9,9 +8,14 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: Home
+      path: '/accountmg',
+      name: 'accountmg',
+      component: () => import('./components/Accountmanager.vue')
+    },
+    {
+      path: '/loginmem',
+      name: 'loginmem',
+      component: () => import('./components/LoginMember.vue')
     },
     {
       path: '/about',
@@ -52,6 +56,16 @@ export default new Router({
       path: '/transfers',
       name: 'transfers',
       component: () => import('./components/U_Transfers.vue')
+    },
+    {
+      path: '/staff/createuser',
+      name: 'staff',
+      component: () => import('./components/StaffCreateUser.vue')
+    },
+    {
+      path: '/staff/createaccount',
+      name: 'staff',
+      component: () => import('./components/StaffCreateAccount.vue')
     }
   ]
 })

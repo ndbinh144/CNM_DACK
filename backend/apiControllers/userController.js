@@ -1,6 +1,9 @@
-var express = require('express');
+var express = require('express'),
+    bodyParser = require('body-parser');
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 var route = express.Router();
+var authRepo = require('../repos/authRepo');
 var userRepo = require('../repos/userRepo.js');
 var dataUserCache = [];
 
@@ -104,4 +107,40 @@ function checkExistUser(iduser) {
   }
   return false;
 }
+
+// dang nhap
+route.post('/login', urlencodedParser, (req, res) => {
+	userRepo.login(req.body)
+		.then(rows => {
+			if (rows.length > 0) {
+				var userEntity = rows[0];
+				var acToken = authRepo.generateAccessToken(userEntity);
+        var rfToken = authRepo.generateRefreshToken();
+        console.log(rfToken);
+				authRepo.updateRefreshToken(userEntity.IDUSER, rfToken)
+					.then(value => {
+						res.json({
+							auth: true,
+							user: userEntity,
+							access_token: acToken,
+							refresh_token: rfToken
+						})
+					})
+					.catch(err => {
+						console.log(err);
+						res.statusCode = 500;
+						res.end('View error log on console');
+					})
+			} else {
+				res.json({
+					auth: false
+				})
+			}
+		})
+		.catch(err => {
+			console.log(err);
+			res.statusCode = 500;
+			res.end('View error log on console');
+		})
+})
 module.exports = route;

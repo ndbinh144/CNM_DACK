@@ -6,6 +6,11 @@ exports.loadAll = () => {
 	return db.load(sql);
 }
 
+exports.login = loginEntity => {
+	var sql = `select * from user where IDUSER = '${loginEntity.username}' and PASSWORD = '${loginEntity.password}'`;
+	return db.load(sql);
+}
+
 exports.addUser = (iduser, password, name, phonenumber, email, type) => {
 	var sql = `insert into ${tableName} ` + 
 		`values('${iduser}', '${password}', '${name}', '${phonenumber}', '${email}', ${type})`;
