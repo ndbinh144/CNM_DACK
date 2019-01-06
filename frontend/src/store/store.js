@@ -9,7 +9,8 @@ import getters from './getters';
 
 export default new Vuex.Store({
     state: {
-        iduser: 'user1',
+        iduser: '',
+        userType: -1,
         listAccountUser: [],
         numAccountEliminate: "",
         listAccountTransfers: [],

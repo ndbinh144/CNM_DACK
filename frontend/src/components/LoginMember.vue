@@ -19,12 +19,6 @@
             password-reveal
           ></b-input>
         </b-field>
-        <b-field>
-          <a
-            class="password-remind-link has-text-dark is-pulled-right"
-            @click="passwordReminder()"
-          >I forgot my password</a>
-        </b-field>
         <vue-recaptcha
           ref="recaptcha"
           @verify="onCaptchaVerified"
@@ -38,9 +32,6 @@
           class="button is-dark is-large is-fullwidth"
           @click="submit()"
         >Login</button>
-      </div>
-      <div class="has-text-centered">
-        <router-link v-on:click.native="closeModal()" to="/register">Signup!</router-link>
       </div>
     </section>
   </div>
@@ -58,22 +49,21 @@ export default {
   },
   components: { VueRecaptcha },
   methods: {
-    passwordReminder() {
-      this.$parent.close();
-      this.$modal.open({
-        parent: this,
-        hasModalCArd: true,
-        props: {}
-      });
-    },
-    closeModal() {
-      this.$parent.close();
-    },
     onCaptchaVerified(recaptchaToken) {
       this.disable = recaptchaToken ? false : true;
     },
     submit() {
-      if (!this.disable) this.$router.replace("/listaccount");
+      const account = { username: this.username, password: this.password };
+      if (!this.disable) {
+        this.$store.dispatch("getAccount", account).then(result => {
+          if (result.user.TYPE === 0) {
+            this.$router.replace("/listaccount");
+          } 
+          else if (result.user.TYPE === 1) {
+            this.$router.replace("/staff/createuser");
+          }
+        });
+      }
     }
   }
 };

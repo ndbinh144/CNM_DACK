@@ -1,4 +1,11 @@
 export default {
+  getAccount(state, data) {
+    localStorage.access_token = data.access_token;
+    localStorage.refresh_token = data.refresh_token;
+    state.iduser = data.user.IDUSER;
+    state.userType = data.user.TYPE;
+  },
+
   getListAccountUser(state, data) {
     state.listAccountUser = data.listAccountUser;
     state.lenListAccountUser = data.listAccountUser.length;
