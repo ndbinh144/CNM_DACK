@@ -23,5 +23,9 @@ export default {
 
   getListTransactionHistory(state, data) {
     state.listTransactionHistory = data;
+  },
+
+  initMenuUser(state, data) {
+    state.menuUser = data;
   }
 }

@@ -57,5 +57,23 @@ export default {
 
   applyEliminate({commit}, numAcc) {
     commit('applyEliminate', numAcc);
-  }
+  },
+
+  initMenuUser({commit}, iduser) {
+    var menu = [
+      {
+        name: "Quản lý tài khoản thanh toán",
+        ref: "/listaccount"
+      },
+      {
+        name: "Chuyển khoản nội bộ",
+        ref: "/transfers"
+      },
+      {
+        name: "Thiết lập danh sách người nhận",
+        ref: "/listreceiver/" + iduser  
+      }
+    ]
+    commit('initMenuUser', menu);
+  },
 }

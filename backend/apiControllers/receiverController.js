@@ -64,4 +64,34 @@ route.post('/', (req, res) => {
   }
 });
 
+// Xóa một tài khoản khỏi list receiver
+route.delete('/:numberaccount', (req, res) => {
+  var numberaccount = req.params.numberaccount;
+  receiverRepo.deleteReceiver(numberaccount)
+  .then(rows => {
+    res.json({
+      status: 1
+    })
+  }).catch(err => {
+    console.log(err);
+    res.statusCode = 500;
+    res.end('View error on console');
+  })
+});
+
+route.post('/update', (req, res) => {
+  var name = req.body.newName;
+  var numAcc = req.body.numAcc;
+  receiverRepo.updateReceiver(numAcc, name)
+  .then(rows => {
+    res.json({
+      status: 1
+    })
+  }).catch(err => {
+    console.log(err);
+    res.statusCode = 500;
+    res.end('View error on console');
+  })
+});
+
 module.exports = route;

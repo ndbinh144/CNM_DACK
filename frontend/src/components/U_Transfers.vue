@@ -294,6 +294,7 @@ export default {
                                       "blue"
                                     );
                                     self.getListAccountUser(self.iduser);
+                                    self.getListReceiver(self.iduser);
                                   }
                                 });
                             } else {

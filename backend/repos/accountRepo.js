@@ -69,3 +69,9 @@ exports.updateBalance = (accountnum, newBalance) => {
 	console.log(sql);
 	return db.load(sql);
 }
+
+exports.getIduserbyNumAcc = (numberaccount) => {
+	var sql = `select iduser from ${tableName} where numberaccount = '${numberaccount}'`;
+	console.log(sql);
+	return db.load(sql);
+} 
