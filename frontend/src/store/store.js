@@ -18,6 +18,7 @@ export default new Vuex.Store({
         listTransactionHistory: [],
         numAccountHistory: "",
         listReceiver: [],
+        url: 'http://localhost:3000/api/'
     },
     getters,
     mutations,

@@ -5,13 +5,8 @@ export default {
   },
 
   closeAccount(state, data) {
-    if (data.status === 1) {
-      state.listAccountUser = data.listAccountUser;
-      state.lenListAccountUser = data.listAccountUser.length;
-      state.messageRequest = data.messageRequest;
-    } else {
-      state.messageRequest = data.messageRequest;
-    }
+    state.listAccountUser = data;
+    state.lenListAccountUser = data.length;
   },
 
   getListReceiver(state, data) {

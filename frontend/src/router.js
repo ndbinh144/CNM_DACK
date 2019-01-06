@@ -50,7 +50,7 @@ export default new Router({
     {
       path: '/transfers',
       name: 'transfers',
-      component: () => import('./components/Transfers.vue')
+      component: () => import('./components/U_Transfers.vue')
     },
     {
       path: '/staff/createuser',

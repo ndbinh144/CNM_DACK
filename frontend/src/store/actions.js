@@ -8,7 +8,7 @@ export default {
     var urls = url + 'account/' + iduser;
     axios.get(urls).then(rs => {
       var result = {
-        listAccountUser: rs.data.listAccountUser
+        listAccountUser: rs.data
       }
       commit('getListAccountUser', result);
     })
@@ -22,12 +22,7 @@ export default {
       if (rs.data.status === 1) {
         var urlsGet = url + 'account/' + info.iduser;
         axios.get(urlsGet).then(rs2 => {
-          var result = {
-            status: rs.data.status,
-            listAccountUser: rs2.data.listAccountUser,
-            messageRequest: rs.data.messageRequest
-          }
-          commit('closeAccount', result);
+          commit('closeAccount', rs2.data);
         })
       } else {
         var result = {

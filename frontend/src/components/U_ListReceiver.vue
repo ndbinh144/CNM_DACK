@@ -170,4 +170,7 @@ td {
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   font-size: 1.2rem;
 }
+tr:hover {
+  background-color: rgb(210, 230, 231);
+}
 </style>

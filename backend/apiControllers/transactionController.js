@@ -1,7 +1,9 @@
 var express = require('express');
 
 var route = express.Router();
-var trasactionRepo = require('../repos/transactionRepo.js');
+var transactionRepo = require('../repos/transactionRepo.js');
+var accountRepo = require('../repos/accountRepo.js');
+var help = require('../help/help.js');
 dataTranscationCache = [];
 
 route.get('/', (req, res) => {
@@ -9,7 +11,7 @@ route.get('/', (req, res) => {
     console.log("Send data from cache");
     res.json(dataTranscationCache);
   } else {
-    trasactionRepo.loadAll()
+    transactionRepo.loadAll()
     .then(rows => {
       var len = rows.length;
       for (var i = 0; i < len; ++i) {
@@ -24,9 +26,42 @@ route.get('/', (req, res) => {
   }
 });
 
+// Thêm một giao dịch mới
+route.post('/', (req, res) => {
+  var accSource = req.body.accSource;
+  var accDestiny = req.body.accDestiny;
+  var amount = req.body.amount;
+  var content = req.body.content;
+  var time = help.formatDate(new Date());
+  transactionRepo.addTransaction(accSource, accDestiny, amount, content, time)
+  .then(rows => {
+    accountRepo.getBalanceByAccnum(accSource)
+    .then(rows2 => {
+      accountRepo.getBalanceByAccnum(accDestiny)
+      .then(rows3 => {
+        newBalanceSource = rows2[0].balance - amount;
+        newBalanceDestiny = rows3[0].balance + amount;
+        accountRepo.updateBalance(accSource, newBalanceSource)
+        .then(rows4 => {
+          accountRepo.updateBalance(accDestiny, newBalanceDestiny)
+          .then(rows5 => {
+            res.json({
+              status: 1
+            })
+          })
+        })
+      })
+    })
+  }).catch(err => {
+    console.log(err);
+    res.statusCode = 500;
+    res.end('View error on console');
+  });
+});
+
 route.get('/:accountnum', (req, res) => {
   var accountNum = req.params.accountnum;
-  trasactionRepo.loadByAccountNumber(accountNum)
+  transactionRepo.loadByAccountNumber(accountNum)
   .then(rows => {
     res.json(rows);
   }).catch(err => {
