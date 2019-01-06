@@ -61,6 +61,11 @@ export default new Router({
       path: '/staff/createaccount',
       name: 'staff',
       component: () => import('./components/StaffCreateAccount.vue')
+    },
+    {
+      path: '/staff/recharge',
+      name: 'recharge',
+      component: () =>import('./components/Recharge.vue')
     }
   ]
 })

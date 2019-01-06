@@ -31,26 +31,81 @@
       <div class="input-group-prepend">
         <span class="input-group-text inputText">Số dư tài khoản</span>
       </div>
-      <input class="form-control" placeholder="Nhập số dư tài khoản"/>
+      <input class="form-control" id="inputBalance" v-model="balance" placeholder="Nhập số dư tài khoản"/>
     </div>
     <!-- Btn xác nhận -->
     <button style="margin-top:30px;" class="btn btn-success btn_transfers">Xác nhận</button>
+  
   </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
       Message: "",
       isDisplayMsg: "none",
       ColorMsg: "red",
-      inputAcount: ""
+      inputAcount: "",
+      balance: "",
+      url: "http://localhost:3000/api/"
     };
   },
   methods: {
     chooseAccount() {},
-    createBalance() {}
+    createBalance() {
+      var self = this;
+      self.isDisplayMsg = "none";
+      if (
+        self.inputAcount != "" &&
+        self.balance != ""
+      ){
+        if(
+          self.isValid(self.inputAcount) &&
+          self.isValid(self.balance)
+        ){
+          var urls = self.url + "account";
+          axios 
+            .post(urls,{
+              inputAcount: self.inputAcount,
+              balance: self.balance,
+              type: 0
+            })
+            .then(rs => {
+              if(rs.data.status === 1) {
+                self.displaySuccessMsg("Đăng ký thành công tài khoản");
+              }
+              else if(rs.data.status === 2) {
+                self.displayErrorMsg("Tên tài khoản đã tồn tại")
+              }else {
+                self.displayErrorMsg("Đăng ký thất bại ,vui lòng thử lại sau");
+              }
+            })
+        } else {
+          self.displayErrorMsg("Các thông tin không được có ký tự đặc biệt")
+        }
+      } else {
+        self.displayErrorMsg("Hãy nhập đủ thông tin");
+      }
+    },
+    displayErrorMsg(msg) {
+      this.ColorMsg = "red";
+      this.Message = msg;
+      this.isDisplayMsg = "block";
+    },
+    displaySuccessMsg(msg) {
+      this.ColorMsg = "rgb(10, 173, 10)";
+      this.Message = msg;
+      this.isDisplayMsg = "block";
+    },
+    isValid(str) {
+      var pattern = new RegExp(/[~`!#$%^&*+=\-[\]\\';,/{}|\\":<>?]/);
+      if (pattern.test(str)) {
+        return false;
+      }
+      return true;
+    }
   }
 };
 </script>
