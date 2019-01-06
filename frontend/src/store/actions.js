@@ -2,6 +2,19 @@ import axios from 'axios';
 var url = 'http://localhost:3000/api/';
 
 export default {
+  getAccount({
+    commit
+  }, account) {
+    return new Promise((resolve, reject) => {
+      const urls = url + 'user/login';
+      axios.post(urls, account).then(rs => {
+        commit('getAccount', rs.data);
+        resolve(rs.data);
+      }).catch(err => {
+        reject(err);
+      })
+    })
+  },
   getListAccountUser({
     commit
   }, iduser) {
@@ -34,7 +47,9 @@ export default {
     })
   },
 
-  getListTransactionHistory({commit}, numAcc) {
+  getListTransactionHistory({
+    commit
+  }, numAcc) {
     var urls = url + 'transaction/' + numAcc;
     if (numAcc != "") {
       axios.get(urls).then(rs => {
@@ -43,19 +58,25 @@ export default {
     }
   },
 
-  getListReceiver({commit}, iduser) {
+  getListReceiver({
+    commit
+  }, iduser) {
     var urls = url + 'receiver/' + iduser;
     axios.get(urls)
-    .then(rs => {
-      commit('getListReceiver', rs.data);
-    })
+      .then(rs => {
+        commit('getListReceiver', rs.data);
+      })
   },
 
-  setMessage({commit}, msg) {
+  setMessage({
+    commit
+  }, msg) {
     commit('setMessage', msg);
   },
 
-  applyEliminate({commit}, numAcc) {
+  applyEliminate({
+    commit
+  }, numAcc) {
     commit('applyEliminate', numAcc);
   },
 

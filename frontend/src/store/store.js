@@ -13,6 +13,8 @@ export default new Vuex.Store({
         type: 0,
         menuUser: [],
         menuStaff: [],
+        iduser: '',
+        userType: -1,
         listAccountUser: [],
         numAccountEliminate: "",
         listAccountTransfers: [],
