@@ -53,17 +53,7 @@ export default new Router({
       component: () => import('./components/U_Transfers.vue')
     },
     {
-      path: '/staff/createuser',
-      name: 'staff',
-      component: () => import('./components/StaffCreateUser.vue')
-    },
-    {
-      path: '/staff/createaccount',
-      name: 'staff',
-      component: () => import('./components/StaffCreateAccount.vue')
-    },
-    {
-      path: '/staff/recharge',
+      path: '/recharge',
       name: 'recharge',
       component: () =>import('./components/Recharge.vue')
     }

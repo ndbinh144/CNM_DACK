@@ -1,39 +1,64 @@
 <template>
   <div>
     <h2 style="margin-top:150px;" class="title">NẠP TIỀN</h2>
-    <label class="notice" :style="{ display: isDisplayMsg, color: ColorMsg }">{{ Message }}</label>
+    <p class="text-danger">{{ Message }}</p>
     <!-- Chọn tài khoản -->
     <div class="input-group mb-3 inputCtx">
       <div class="input-group-prepend">
         <span
           class="input-group-text btn btn-info inputText"
           id="basic-addon1"
-          @click="chooseAccount"
-        >Chọn tài khoản</span>
+        >Số tài khoản</span>
       </div>
       <input
         type="text"
         class="form-control"
-        placeholder="Nhập tên tài khoản"
+        placeholder="Nhập số tài khoản"
         aria-describedby="basic-addon1"
-        id="number_account"
-        v-model="inputAcount">
+        v-model="numberAcount"
+      >
     </div>
     <!-- Số tiền nạp -->
     <div class="input-group margin_form inputCtx">
       <div class="input-group-prepend">
         <span class="input-group-text inputText">Số tiền nạp</span>
       </div>
-      <input class="form-control" id="money" v-model="money" placeholder="Nhập số tiền cần nạp"/>
+      <input class="form-control" v-model="money" placeholder="Nhập số tiền cần nạp">
     </div>
     <!-- Btn xác nhận -->
-    <button style="margin-top:30px;" class="btn btn-success btn_transfers">Xác nhận</button>
-  
+    <button style="margin-top:30px;" class="btn btn-success btn_transfers" @click="add">Xác nhận</button>
   </div>
 </template>
 
 <script>
-export default {}
+/* eslint-disable */
+export default {
+  data() {
+    return {
+      Message: "",
+      numberAcount: "",
+      money: ""
+    };
+  },
+  methods: {
+    add() {
+      if (!!this.numberAcount) {
+        if (!!this.money) {
+          const temp = {
+            accNum: this.numberAcount,
+            money: this.money,
+          };
+          this.$store.dispatch("addMoney", temp);
+          this.Message = "Nạp thành công!";
+        } else {
+          this.Message = "Chưa nhập số tiền";
+        }
+      } else {
+        this.Message = "Chưa nhập số tài khoản";
+      }
+    }
+  }
+};
 </script>
 
 <style scoped>

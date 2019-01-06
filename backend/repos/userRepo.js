@@ -6,6 +6,11 @@ exports.loadAll = () => {
 	return db.load(sql);
 }
 
+exports.findUser = IDUSER => {
+	var sql = `select * from ${tableName} where IDUSER = '${IDUSER}'`;
+	return db.load(sql);
+}
+
 exports.login = loginEntity => {
 	var sql = `select * from user where IDUSER = '${loginEntity.username}' and PASSWORD = '${loginEntity.password}'`;
 	return db.load(sql);

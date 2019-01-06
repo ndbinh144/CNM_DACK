@@ -97,6 +97,19 @@ route.get('/requireotp', (req, res) => {
   
 });
 
+// tìm tài khoản
+route.get('/find/:iduser', (req, res) => {
+  var idUser = req.params.iduser;
+  userRepo.findUser(idUser)
+  .then(rows => {
+    res.json(rows);
+  }).catch(err => {
+    console.log(err);
+    res.statusCode = 500;
+    res.end('View error on console');
+  });
+});
+
 // function
 function checkExistUser(iduser) {
   var len = dataUserCache.length;

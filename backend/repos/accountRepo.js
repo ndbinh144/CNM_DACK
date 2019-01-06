@@ -2,7 +2,7 @@ var db = require('../fn/mysql-db');
 var tableName = "accountbank";
 
 exports.loadAll = () => {
-	var sql = `select * from ${tableName}`;
+	let sql = `select * from ${tableName}`;
 	console.log(sql);
 	return db.load(sql);
 }
@@ -72,6 +72,13 @@ exports.updateBalance = (accountnum, newBalance) => {
 
 exports.getIduserbyNumAcc = (numberaccount) => {
 	var sql = `select iduser from ${tableName} where numberaccount = '${numberaccount}'`;
+	console.log(sql);
+	return db.load(sql);
+} 
+
+exports.addMoney = (accNum, money) => {
+	var sql = `UPDATE ${tableName} SET BALANCE = BALANCE + ${money} where numberaccount = '${accNum}'`;
+	// var sql = `select iduser from ${tableName} where numberaccount = '${accNum}'`;
 	console.log(sql);
 	return db.load(sql);
 } 

@@ -1,7 +1,56 @@
+/* eslint-disable */
 import axios from 'axios';
 var url = 'http://localhost:3000/api/';
 
 export default {
+  addMoney({
+    commit
+  }, account) {
+    return new Promise((resolve, reject) => {
+      const urls = url + 'account/addmoney';
+      axios.post(urls, account).then(rs => {
+        resolve(rs.data);
+      }).catch(err => {
+        reject(err);
+      })
+    })
+  },
+  createAccount({
+    commit
+  }, account) {
+    return new Promise((resolve, reject) => {
+      const urls = url + 'account';
+      axios.post(urls, account).then(rs => {
+        resolve(rs.data);
+      }).catch(err => {
+        reject(err);
+      })
+    })
+  },
+  createAccountNum({
+    commit
+  }) {
+    return new Promise((resolve, reject) => {
+      const urls = url + 'account/createAccountNum/new';
+      axios.get(urls).then(rs => {
+        resolve(rs.data);
+      }).catch(err => {
+        reject(err);
+      })
+    })
+  },
+  initUser({
+    commit
+  }, idUser) {
+    return new Promise((resolve, reject) => {
+      const urls = url + 'user/find/'+idUser;
+      axios.get(urls).then(rs => {
+        resolve(rs.data);
+      }).catch(err => {
+        reject(err);
+      })
+    })
+  },
   getAccount({
     commit
   }, account) {

@@ -1,6 +1,7 @@
-var express = require('express');
+var express = require('express'),
+    bodyParser = require('body-parser');
 var help = require('../help/help.js');
-
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var route = express.Router();
 var dataAccountCache = [];
 var accountRepo = require('../repos/accountRepo.js');
@@ -64,16 +65,18 @@ route.post('/', (req, res) => {
 });
 
 // Tạo một số tài khoản
-route.get('/createAccountNum', (req, res) => {
+route.get('/createAccountNum/new', (req, res) => {
   dataAccountCache = [];
   accountRepo.loadAll()
     .then(rows => {
       var len = rows.length;
+      console.log(rows);
       for (var i = 0; i < len; ++i) {
         dataAccountCache.push(rows[i]);
       }
-      while (1) {
+      while (true) {
         var numAccountString = help.createNumberAccount();
+        console.log(numAccountString);
         if (help.checkNumAccExists(numAccountString, dataAccountCache) == false) {
           res.json({
             numAccountString: numAccountString
@@ -298,5 +301,22 @@ route.post('/checkaccountuser', (req, res) => {
       res.end('View error on console');
     })
 });
+
+// nạp tiền vào tài khoản
+route.post('/addmoney', urlencodedParser, (req, res) => {
+  var accNum = req.body.accNum;
+  var money = req.body.money;
+  accountRepo.addMoney(accNum, money)
+    .then(rows => {
+      res.json({
+        status: 1
+      })
+    }).catch(err => {
+      console.log(err);
+      res.statusCode = 500;
+      res.end('View error on console');
+    })
+});
+
 
 module.exports = route;

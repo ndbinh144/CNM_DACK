@@ -60,7 +60,7 @@ export default {
             this.$router.replace("/listaccount");
           } 
           else if (result.user.TYPE === 1) {
-            this.$router.replace("/staff/createuser");
+            this.$router.replace("/createuser");
           }
         });
       }
