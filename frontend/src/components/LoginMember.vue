@@ -6,32 +6,38 @@
       </login-logo>
       <h3 class="title has-text-centered has-text-dark">Member Login</h3>
       <div class="box">
-        <form ref="form" lazy-validation>
-          <b-field>
-            <b-input v-model="username" placeholder="Username" maxlength="10"></b-input>
-          </b-field>
+        <b-field>
+          <b-input v-model="username" placeholder="Username" maxlength="10"></b-input>
+        </b-field>
 
-          <b-field>
-            <b-input
-              v-model="password"
-              type="password"
-              placeholder="Password"
-              minlength="6"
-              password-reveal
-            ></b-input>
-          </b-field>
-          <b-field>
-            <a
-              class="password-remind-link has-text-dark is-pulled-right"
-              @click="passwordReminder()"
-            >I forgot my password</a>
-          </b-field>
-          <button
-            style="margin-top:50px;"
-            class="button is-dark is-large is-fullwidth"
-            @click="submit"
-          >Login</button>
-        </form>
+        <b-field>
+          <b-input
+            v-model="password"
+            type="password"
+            placeholder="Password"
+            minlength="6"
+            password-reveal
+          ></b-input>
+        </b-field>
+        <b-field>
+          <a
+            class="password-remind-link has-text-dark is-pulled-right"
+            @click="passwordReminder()"
+          >I forgot my password</a>
+        </b-field>
+        <vue-recaptcha
+          ref="recaptcha"
+          @verify="onCaptchaVerified"
+          sitekey="6LcBWIMUAAAAAGNnweTaAA8tJKIGf7NdadNWFBc_"
+        ></vue-recaptcha>
+        <template v-if="disable === true">
+          <p class="text-danger">Vui lòng check captcha!</p>
+        </template>
+        <button
+          style="margin-top:50px;"
+          class="button is-dark is-large is-fullwidth"
+          @click="submit()"
+        >Login</button>
       </div>
       <div class="has-text-centered">
         <router-link v-on:click.native="closeModal()" to="/register">Signup!</router-link>
@@ -41,13 +47,16 @@
 </template>
 
 <script>
+import VueRecaptcha from "vue-recaptcha";
 export default {
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
+      disable: true
     };
   },
+  components: { VueRecaptcha },
   methods: {
     passwordReminder() {
       this.$parent.close();
@@ -60,15 +69,17 @@ export default {
     closeModal() {
       this.$parent.close();
     },
+    onCaptchaVerified(recaptchaToken) {
+      this.disable = recaptchaToken ? false : true;
+    },
     submit() {
-      const account = { username: this.username, password: this.password };
-      this.$router.replace('/listaccount');
+      if (!this.disable) this.$router.replace("/listaccount");
     }
   }
 };
 </script>
 
-<style scoped>
+<style>
 .menu_img {
   height: 2.5rem;
   width: 2.5rem;
